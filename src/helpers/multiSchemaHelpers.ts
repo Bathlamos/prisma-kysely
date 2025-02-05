@@ -22,12 +22,13 @@ export const convertToMultiSchemaModels = <const T extends ModelLike>(
   models: T[],
   groupBySchema: boolean,
   filterBySchema: Set<string> | null,
-  multiSchemaMap?: Map<string, string>
+  multiSchemaMap?: Map<string, string>,
+  defaultSchema?: string
 ): T[] => {
   return models.flatMap((model) => {
     const schemaName = multiSchemaMap?.get(model.typeName);
 
-    if (!schemaName) {
+    if (!schemaName || schemaName === defaultSchema) {
       return model;
     }
 
